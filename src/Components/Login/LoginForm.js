@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './LoginForm.module.css';
+import stylesBtn from '../Form/Button.module.css';
+import Error from '../../Helper/Error';
 import useForm from '../../Hooks/useForm';
+import { UserContext } from '../../UserContext';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
 
@@ -8,36 +12,39 @@ const LoginForm = () => {
   const username = useForm();
   const password = useForm();
 
-  function handleSubmit(event) {
+  const { userLogin, error, loading } = React.useContext(UserContext);
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (username.validate() && password.validate()) {
-      fetch('http://dogsapi.test/json/jwt-auth/v1/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(),
-      })
-        .then((response) => {
-          console.log(response);
-          return response.json();
-        })
-        .then((json) => {
-          console.log(json);
-        });
+      await userLogin(username.value, password.value);
     }
   }
 
   return (
-    <section>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+    <section className="animeLeft">
+      <h1 className="title">Login</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <Input label="Usuário" type="text" name="username" {...username} />
         <Input label="Senha" type="password" name="password" {...password} />
-        <Button>Entrar</Button>
+        {loading ? (
+          <Button disabled>Carregando...</Button>
+        ) : (
+          <Button>Entrar</Button>
+        )}
+        <Error error={error} />
       </form>
-      <Link to="/login/create">Cadastro</Link>
+      <Link className={styles.lost} to="/login/lost">
+        Perdeu a senha?
+      </Link>
+      <div className={styles.register}>
+        <h2 className={styles.subtitle}>Cadastre-se</h2>
+        <p>Ainda não possui conta? Cadastre-se no site.</p>
+        <Link className={stylesBtn.button} to="/login/create">
+          Cadastro
+        </Link>
+      </div>
     </section>
   );
 };
