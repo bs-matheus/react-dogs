@@ -20,7 +20,7 @@ const UserPhotoPost = () => {
     if (data) navigate('/account');
   }, [data, navigate]);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const formData = new FormData();
@@ -31,7 +31,7 @@ const UserPhotoPost = () => {
 
     const token = window.localStorage.getItem('token');
     const { url, options } = PHOTO_POST(formData, token);
-    request(url, options);
+    await request(url, options);
   }
 
   function handleImgChange({ target }) {
