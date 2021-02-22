@@ -1,6 +1,7 @@
 export const API_URL = 'http://dogsapi.test/json';
 // export const API_URL = 'https://dogsapi.origamid.dev/json';
 
+//#region Token
 export function TOKEN_POST(body) {
   return {
     url: API_URL + '/jwt-auth/v1/token',
@@ -25,7 +26,9 @@ export function TOKEN_VALIDATE_POST(token) {
     },
   };
 }
+//#endregion
 
+//#region User
 export function USER_GET(token) {
   return {
     url: API_URL + '/api/user',
@@ -50,7 +53,9 @@ export function USER_POST(body) {
     },
   };
 }
+//#endregion
 
+//#region Photo
 export function PHOTO_POST(formData, token) {
   return {
     url: API_URL + '/api/photo',
@@ -84,6 +89,20 @@ export function PHOTO_GET(id) {
   };
 }
 
+export function PHOTO_DELETE(id, token) {
+  return {
+    url: API_URL + `/api/photo/${id}`,
+    options: {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    },
+  };
+}
+//#endregion
+
+//#region Comment
 export function COMMENT_POST(id, body, token) {
   return {
     url: API_URL + `/api/comment/${id}`,
@@ -97,19 +116,9 @@ export function COMMENT_POST(id, body, token) {
     },
   };
 }
+//#endregion
 
-export function PHOTO_DELETE(id, token) {
-  return {
-    url: API_URL + `/api/photo/${id}`,
-    options: {
-      method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    },
-  };
-}
-
+//#region Password
 export function PASSWORD_LOST(body) {
   return {
     url: API_URL + `/api/password/lost`,
@@ -135,3 +144,18 @@ export function PASSWORD_RESET(body) {
     },
   };
 }
+//#endregion
+
+//#region Stats
+export function STATS_GET(token) {
+  return {
+    url: API_URL + `/api/stats`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    },
+  };
+}
+//#endregion
