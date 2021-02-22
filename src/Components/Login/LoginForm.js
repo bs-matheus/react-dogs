@@ -7,6 +7,7 @@ import useForm from '../../Hooks/useForm';
 import { UserContext } from '../../UserContext';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
+import Head from '../../Helper/Head';
 
 const LoginForm = () => {
   const username = useForm();
@@ -24,12 +25,13 @@ const LoginForm = () => {
 
   return (
     <section className="animeLeft">
+      <Head title="Login" />
       <h1 className="title">Login</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input label="Usuário" type="text" name="username" {...username} />
         <Input label="Senha" type="password" name="password" {...password} />
         {loading ? (
-          <Button disabled>Carregando...</Button>
+          <Button disabled>Entrando...</Button>
         ) : (
           <Button>Entrar</Button>
         )}
